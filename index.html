@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A solar system calendar visualization that responds to a selected date and time." />
+    <title>Solar Calendar</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <h1>Solar Calendar</h1>
+        <p class="hero-copy">
+          Pick a day, month, and hour to shift the planets into the relative
+          positions they occupy on that moment.
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="panel controls-panel" aria-labelledby="date-picker-title">
+          <div class="panel-header">
+            <h2 id="date-picker-title">Date selector</h2>
+            <p>Change the date to update the orbital positions.</p>
+          </div>
+
+          <form id="date-form" class="date-form">
+            <label>
+              <span>Day</span>
+              <select id="day-select" name="day"></select>
+            </label>
+
+            <label>
+              <span>Month</span>
+              <select id="month-select" name="month"></select>
+            </label>
+
+            <label>
+              <span>Year</span>
+              <input id="year-input" name="year" type="number" min="1900" max="2100" step="1" />
+            </label>
+          </form>
+
+          <p class="selection-summary" id="selection-summary" aria-live="polite"></p>
+        </section>
+
+        <section class="panel visualization-panel" aria-labelledby="solar-system-title">
+          <div class="panel-header">
+            <h2 id="solar-system-title">Solar system</h2>
+            <p>Planets are positioned with deterministic orbital timing for the selected date.</p>
+          </div>
+
+          <div class="visualization-stage">
+            <svg id="solar-system" viewBox="0 0 800 800" role="img" aria-labelledby="solar-system-title solar-system-description">
+              <desc id="solar-system-description">
+                A stylized top-down solar system visualization with orbit rings and planetary bodies.
+              </desc>
+            </svg>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
