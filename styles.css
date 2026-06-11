@@ -138,18 +138,24 @@ body::before {
 .date-form input {
   width: 100%;
   border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text);
+  border: 1px solid rgba(125, 226, 255, 0.35);
+  background-color: #0d1628;
+  color: #ffffff;
   padding: 0.82rem 0.9rem;
   font: inherit;
   outline: none;
+  caret-color: #ffffff;
 }
 
 .date-form select:focus,
 .date-form input:focus {
   border-color: rgba(125, 226, 255, 0.8);
   box-shadow: 0 0 0 3px rgba(125, 226, 255, 0.18);
+}
+
+.date-form select option {
+  background-color: #0d1628;
+  color: #ffffff;
 }
 
 .selection-summary {

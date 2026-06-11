@@ -1,6 +1,6 @@
 import { getOrbitPlanets } from "./orbits.js";
 
-export function renderSolarSystem(svgElement, planets) {
+export function createSolarSystemRenderer(svgElement) {
   const size = 800;
   svgElement.setAttribute("viewBox", `0 0 ${size} ${size}`);
   svgElement.replaceChildren();
@@ -35,24 +35,56 @@ export function renderSolarSystem(svgElement, planets) {
   sun.setAttribute("fill", "url(#sun-gradient)");
   svgElement.append(sun);
 
-  planets.forEach((planet) => {
+  const planetNodes = new Map();
+  const planetLayer = createSvgElement("g");
+
+  getOrbitPlanets().forEach((planet) => {
     const body = createSvgElement("circle");
-    body.setAttribute("cx", String(planet.x));
-    body.setAttribute("cy", String(planet.y));
+    body.setAttribute("cx", "400");
+    body.setAttribute("cy", "400");
     body.setAttribute("r", String(planet.size));
     body.setAttribute("fill", planet.color);
     body.setAttribute("stroke", "rgba(255,255,255,0.2)");
     body.setAttribute("stroke-width", "1");
     body.setAttribute("data-planet", planet.name);
-    svgElement.append(body);
+    planetLayer.append(body);
 
     const label = createSvgElement("text");
     label.setAttribute("class", "planet-label");
-    label.setAttribute("x", String(planet.x + planet.size + 6));
-    label.setAttribute("y", String(planet.y + 4));
+    label.setAttribute("x", "406");
+    label.setAttribute("y", "404");
     label.textContent = planet.name;
-    svgElement.append(label);
+    planetLayer.append(label);
+
+    planetNodes.set(planet.name, { body, label });
   });
+
+  svgElement.append(planetLayer);
+
+  return {
+    setPlanets(planets) {
+      planets.forEach((planet) => {
+        const nodes = planetNodes.get(planet.name);
+
+        if (!nodes) {
+          return;
+        }
+
+        nodes.body.setAttribute("cx", String(planet.x));
+        nodes.body.setAttribute("cy", String(planet.y));
+        nodes.body.setAttribute("r", String(planet.size));
+        nodes.body.setAttribute("fill", planet.color);
+
+        nodes.label.setAttribute("x", String(planet.x + planet.size + 6));
+        nodes.label.setAttribute("y", String(planet.y + 4));
+      });
+    },
+  };
+}
+
+export function renderSolarSystem(svgElement, planets) {
+  const renderer = createSolarSystemRenderer(svgElement);
+  renderer.setPlanets(planets);
 }
 
 function createSvgElement(name) {
